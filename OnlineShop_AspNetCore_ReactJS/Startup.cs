@@ -63,7 +63,7 @@ namespace OnlineShop_AspNetCore_ReactJS
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
+                    spa.UseProxyToSpaDevelopmentServer(Configuration.GetValue<string>("ProxyToSpaDevelopmentServer"));
                 }
             });
         }
