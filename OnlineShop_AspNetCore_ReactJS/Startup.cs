@@ -1,10 +1,14 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OnlineShop_AspNetCore_ReactJS.Data;
+using OnlineShop_AspNetCore_ReactJS.Services;
 
 namespace OnlineShop_AspNetCore_ReactJS
 {
@@ -28,6 +32,14 @@ namespace OnlineShop_AspNetCore_ReactJS
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            services.AddDbContext<OnlineShopContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<IBannerService, BannerService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IPieService, PieService>();
+
+            services.AddAutoMapper(typeof(Startup).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
