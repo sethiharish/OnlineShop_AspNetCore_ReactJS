@@ -16,6 +16,20 @@ async function getPiesOfTheWeek() {
   return results;
 }
 
+async function getPie(pieId) {
+  let results = { data: null, error: null };
+
+  try {
+    const { data } = await http.get(`${apiEndPoint}/${pieId}`);
+    results.data = data;
+  } catch (error) {
+    results.error = error;
+  }
+
+  return results;
+}
+
 export default {
-  getPiesOfTheWeek
+  getPiesOfTheWeek,
+  getPie
 };
