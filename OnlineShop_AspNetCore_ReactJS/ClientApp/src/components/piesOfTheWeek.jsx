@@ -5,7 +5,7 @@ import Spinner from "./common/spinner";
 
 const PiesOfTheWeek = props => {
   const displayName = "Pies Of The Week";
-  const { pies, error, pieDataLoading, onLoad } = props;
+  const { pies, error, pieDataLoading, onLoad, onAddToCart } = props;
   const displayStyle = pieDataLoading ? { display: "none" } : null;
 
   return (
@@ -15,10 +15,8 @@ const PiesOfTheWeek = props => {
         {!error && pieDataLoading && <Spinner componentName={displayName} />}
         {!error && pies && (
           <React.Fragment>
-            <div className="row" style={displayStyle}>
-              <h5>
-                Our pies of the week, <small>specially picked for you!</small>
-              </h5>
+            <div className="row pl-4" style={displayStyle}>
+              <h5>Our pies of the week, specially picked for you!</h5>
             </div>
 
             <div className="row border mb-3" style={displayStyle}>
@@ -35,6 +33,12 @@ const PiesOfTheWeek = props => {
                     <Link to={`/pies/${pie.id}`}>{pie.name}</Link>
                     <span className="float-right">${pie.price}</span>
                     <p>{pie.shortDescription}</p>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => onAddToCart(pie)}
+                    >
+                      Add to cart
+                    </button>
                   </div>
                 </div>
               ))}

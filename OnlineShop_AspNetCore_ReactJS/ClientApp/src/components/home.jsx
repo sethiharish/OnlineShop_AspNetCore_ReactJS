@@ -4,6 +4,7 @@ import PiesOfTheWeek from "./piesOfTheWeek";
 import bannerService from "../services/bannerService";
 import pieService from "../services/pieService";
 import generateRandomNumber from "../utils/generateRandomNumber";
+import shoppingCartService from "../services/shoppingCartService";
 
 class Home extends Component {
   state = {
@@ -28,7 +29,10 @@ class Home extends Component {
       }
     });
 
-    const activeBanner = await this.getBannerRandomly(bannerData.data);
+    // Suppressing Random Banner display
+    // const activeBanner = await this.getBannerRandomly(bannerData.data);
+    const activeBanner =
+      bannerData.data && bannerData.data.length !== 0 ? bannerData.data[0] : {};
     const bannerDataClone = { ...this.state.bannerData };
     bannerDataClone.activeBanner = activeBanner;
     this.setState({ bannerData: bannerDataClone });
@@ -62,6 +66,14 @@ class Home extends Component {
     this.setState({ pieDataLoading });
   };
 
+  handleAddToCart = async pie => {
+    const { history } = this.props;
+    const result = await shoppingCartService.increaseItemQuantity(pie.id, 1);
+    if (result.data) {
+      history.replace("/shoppingcart");
+    }
+  };
+
   render() {
     const { pieDataLoading, bannerDataLoading } = this.state;
     const { activeBanner, error: bannerDataError } = this.state.bannerData;
@@ -80,6 +92,7 @@ class Home extends Component {
           error={piesError}
           onLoad={this.handlePieImageLoad}
           pieDataLoading={pieDataLoading}
+          onAddToCart={this.handleAddToCart}
         />
       </React.Fragment>
     );
