@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OnlineShop_AspNetCore_ReactJS.Data;
 using OnlineShop_AspNetCore_ReactJS.Services;
+using System;
 
 namespace OnlineShop_AspNetCore_ReactJS
 {
@@ -33,11 +35,27 @@ namespace OnlineShop_AspNetCore_ReactJS
                 configuration.RootPath = "ClientApp/build";
             });
 
+            services.AddSession();
+            services.AddHttpContextAccessor();
             services.AddDbContext<OnlineShopContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IBannerService, BannerService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IPieService, PieService>();
+            services.AddScoped<IShoppingCartService, ShoppingCartService>(sp => 
+            {
+                var dbContext = sp.GetRequiredService<OnlineShopContext>();
+                var session = sp.GetRequiredService<IHttpContextAccessor>().HttpContext.Session;
+
+                string shoppingCartId = session.GetString("ShoppingCartId");
+                if (string.IsNullOrWhiteSpace(shoppingCartId))
+                {
+                    shoppingCartId = Guid.NewGuid().ToString();
+                    session.SetString("ShoppingCartId", shoppingCartId);
+                }
+
+                return new ShoppingCartService(dbContext, shoppingCartId);
+            });
 
             services.AddAutoMapper(typeof(Startup).Assembly);
         }
@@ -59,8 +77,9 @@ namespace OnlineShop_AspNetCore_ReactJS
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-
+            
             app.UseRouting();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

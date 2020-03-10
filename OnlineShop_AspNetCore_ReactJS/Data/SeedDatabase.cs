@@ -16,9 +16,9 @@ namespace OnlineShop_AspNetCore_ReactJS.Data
             if (!context.Banner.Any())
             {
                 banners = new Banner[] {
-                    new Banner { Name = "Carousel1", Description = "Carousel1", ImageUrl = "/images/carousel1.jpg" },
-                    new Banner { Name = "Carousel2", Description = "Carousel2", ImageUrl = "/images/carousel2.jpg" },
-                    new Banner { Name = "Carousel3", Description = "Carousel3", ImageUrl = "/images/carousel3.jpg" }
+                    new Banner { Name = "Carousel1", Description = "We sell the best pies in the town!", ImageUrl = "/images/carousel1.jpg" },
+                    new Banner { Name = "Carousel2", Description = "We sell the best pies in the town!", ImageUrl = "/images/carousel2.jpg" },
+                    new Banner { Name = "Carousel3", Description = "We sell the best pies in the town!", ImageUrl = "/images/carousel3.jpg" }
                 };
                 context.Banner.AddRange(banners);
             }
