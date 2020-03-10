@@ -4,7 +4,7 @@ import Spinner from "./common/spinner";
 
 const PieDetailContent = props => {
   const displayName = "Pie Detail";
-  const { pie, error, onLoad, pieDataLoading } = props;
+  const { pie, error, onLoad, pieDataLoading, onAddToCart } = props;
   const displayStyle = pieDataLoading ? { display: "none" } : null;
 
   return (
@@ -29,6 +29,12 @@ const PieDetailContent = props => {
               ></img>
             </div>
             <div className="col-sm-3 mt-5">
+              <button
+                className="btn btn-danger"
+                onClick={() => onAddToCart(pie)}
+              >
+                Add to cart
+              </button>
               <p>
                 <small>{pie.longDescription}</small>
               </p>

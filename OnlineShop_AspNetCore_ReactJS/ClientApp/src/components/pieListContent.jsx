@@ -5,14 +5,15 @@ import Spinner from "./common/spinner";
 
 const PieListContent = props => {
   const displayName = "Pie List Content";
-  const { pies, error, onLoad } = props;
+  const { pies, error, pieDataLoading, onLoad, onAddToCart } = props;
+  const displayStyle = pieDataLoading ? { display: "none" } : null;
 
   return (
     <React.Fragment>
       {error && <ErrorMessage componentName={displayName} />}
       {!error && pies && (
         <div className="col-sm-9">
-          <div className="row border">
+          <div className="row border" style={displayStyle}>
             {pies.map(pie => (
               <div key={pie.id} className="col-sm-4">
                 {!error && !pie.loaded && (
@@ -32,6 +33,12 @@ const PieListContent = props => {
                   <Link to={`/pies/${pie.id}`}>{pie.name}</Link>
                   <span className="float-right">${pie.price}</span>
                   <p>{pie.shortDescription}</p>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => onAddToCart(pie)}
+                  >
+                    Add to cart
+                  </button>
                 </div>
               </div>
             ))}

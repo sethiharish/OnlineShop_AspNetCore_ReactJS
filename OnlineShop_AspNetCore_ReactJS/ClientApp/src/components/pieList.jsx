@@ -3,18 +3,21 @@ import PieListContent from "./pieListContent";
 import PieListSideBar from "./pieListSideBar";
 import pieService from "../services/pieService";
 import categoryService from "../services/categoryService";
+import shoppingCartService from "../services/shoppingCartService";
 
 class PieList extends Component {
   state = {
     pieData: { pies: [], error: null },
     categoryData: { categories: [], selectedCategory: null, error: null },
-    categoryDataLoading: true
+    categoryDataLoading: true,
+    pieDataLoading: true
   };
 
   async componentDidMount() {
     const pieData = await pieService.getPies();
     this.setState({
-      pieData: { pies: pieData.data, error: pieData.error }
+      pieData: { pies: pieData.data, error: pieData.error },
+      pieDataLoading: false
     });
 
     const categoryData = await categoryService.getCategories();
@@ -48,6 +51,14 @@ class PieList extends Component {
     this.setState({ pieData: pieDataClone });
   };
 
+  handleAddToCart = async pie => {
+    const { history } = this.props;
+    const result = await shoppingCartService.increaseItemQuantity(pie.id, 1);
+    if (result.data) {
+      history.replace("/shoppingcart");
+    }
+  };
+
   render() {
     const { pies, error: piesError } = this.state.pieData;
     const {
@@ -55,7 +66,7 @@ class PieList extends Component {
       selectedCategory,
       error: categoriesError
     } = this.state.categoryData;
-    const { categoryDataLoading } = this.state;
+    const { categoryDataLoading, pieDataLoading } = this.state;
 
     const filteredPies = pies.filter(
       pie =>
@@ -76,8 +87,10 @@ class PieList extends Component {
           />
           <PieListContent
             pies={filteredPies}
+            pieDataLoading={pieDataLoading}
             error={piesError}
             onLoad={this.handlePieImageLoad}
+            onAddToCart={this.handleAddToCart}
           />
         </div>
       </div>
