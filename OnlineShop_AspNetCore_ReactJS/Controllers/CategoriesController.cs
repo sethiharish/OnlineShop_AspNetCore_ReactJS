@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using OnlineShop_AspNetCore_ReactJS.Data.Entities;
 using OnlineShop_AspNetCore_ReactJS.Services;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -24,14 +20,14 @@ namespace OnlineShop_AspNetCore_ReactJS.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
+        public async Task<ActionResult<IEnumerable<Models.Category>>> GetCategories()
         {
             var categories = await categoryService.GetCategoriesAsync();
             return Ok(mapper.Map<Models.Category[]>(categories));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Category>> GetCategory(int id)
+        public async Task<ActionResult<Models.Category>> GetCategory(int id)
         {
             var category = await categoryService.GetCategoryAsync(id);
             if (category == null)

@@ -1,16 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OnlineShop_AspNetCore_ReactJS.Data.Entities;
+﻿using OnlineShop_AspNetCore_ReactJS.Data.Entities;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace OnlineShop_AspNetCore_ReactJS.Data
 {
     public class SeedDatabase
     {
-        public static Tuple<Banner[], Category[], Pie[]> Initialize(OnlineShopContext context)
+        public static Tuple<Banner[], Category[], Pie[], Iteration[], WorkItem[]> Initialize(OnlineShopContext context)
         {
-            context.Database.Migrate();
+            context.Database.EnsureCreated();
 
             Banner[] banners = null;
             if (!context.Banner.Any())
@@ -174,9 +172,94 @@ namespace OnlineShop_AspNetCore_ReactJS.Data
                 };
                 context.Pie.AddRange(pies);
             }
+
+            Iteration[] iterations = null;
+            Iteration iterationApplicationOverview = new Iteration { Name = "Application Overview" };
+            Iteration iteration1 = new Iteration { Name = "Iteration 1" };
+            Iteration iteration2 = new Iteration { Name = "Iteration 2" };
+            if (!context.Iteration.Any())
+            {
+                iterations = new Iteration[] { iterationApplicationOverview, iteration1, iteration2 };
+                context.Iteration.AddRange(iterations);
+            }
+
+            WorkItem[] workItems = null;
+            if (!context.WorkItem.Any())
+            {
+                workItems = new WorkItem[] {
+                    new WorkItem
+                    {
+                        Name = "Application Overview",
+                        ImageUrl = "",
+                        Iteration = iterationApplicationOverview
+                    },
+                    new WorkItem
+                    {
+                        Name = "Iteration1 - Azure Board View 1",
+                        ImageUrl = "/images/devops/Azure_Board_Iteration1_1.jpg",
+                        Iteration = iteration1
+                    },
+                    new WorkItem
+                    {
+                        Name = "Iteration1 - Azure Board View 2",
+                        ImageUrl = "/images/devops/Azure_Board_Iteration1_2.jpg",
+                        Iteration = iteration1
+                    },
+                    new WorkItem
+                    {
+                        Name = "Iteration1 - Iteration Board View",
+                        ImageUrl = "/images/devops/Azure_Board_Iteration1_3.jpg",
+                        Iteration = iteration1
+                    },
+                    new WorkItem
+                    {
+                        Name = "Iteration2 - Azure Board View 1",
+                        ImageUrl = "/images/devops/Azure_Board_Iteration2_1.jpg",
+                        Iteration = iteration2
+                    },
+                    new WorkItem
+                    {
+                        Name = "Iteration2 - Azure Board View 2",
+                        ImageUrl = "/images/devops/Azure_Board_Iteration2_2.jpg",
+                        Iteration = iteration2
+                    },
+                    new WorkItem
+                    {
+                        Name = "Iteration2 - Work Item Detail View",
+                        ImageUrl = "/images/devops/Azure_Board_Iteration2_3.jpg",
+                        Iteration = iteration2
+                    },
+                    new WorkItem
+                    {
+                        Name = "Iteration2 - Iteration Board View",
+                        ImageUrl = "/images/devops/Azure_Board_Iteration2_4.jpg",
+                        Iteration = iteration2
+                    },
+                    new WorkItem
+                    {
+                        Name = "Iteration2 - Continuous Integration Build Board View",
+                        ImageUrl = "/images/devops/Azure_CI_Build_1.jpg",
+                        Iteration = iteration2
+                    },
+                    new WorkItem
+                    {
+                        Name = "Iteration2 - Continuous Integration Build Detail View 1",
+                        ImageUrl = "/images/devops/Azure_CI_Build_1_Detail_1.jpg",
+                        Iteration = iteration2
+                    },
+                    new WorkItem
+                    {
+                        Name = "Iteration2 - Continuous Integration Build Detail View 2",
+                        ImageUrl = "/images/devops/Azure_CI_Build_1_Detail_2.jpg",
+                        Iteration = iteration2
+                    }
+                };
+                context.WorkItem.AddRange(workItems);
+            }
+            
             context.SaveChanges();
 
-            return new Tuple<Banner[], Category[], Pie[]>(banners, categories, pies);
+            return new Tuple<Banner[], Category[], Pie[], Iteration[], WorkItem[]>(banners, categories, pies, iterations, workItems);
         }
     }
 }

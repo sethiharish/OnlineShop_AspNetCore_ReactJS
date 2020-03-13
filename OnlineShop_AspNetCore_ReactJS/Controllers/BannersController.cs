@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using OnlineShop_AspNetCore_ReactJS.Data.Entities;
 using OnlineShop_AspNetCore_ReactJS.Services;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -24,14 +20,14 @@ namespace OnlineShop_AspNetCore_ReactJS.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Banner>>> GetBanners()
+        public async Task<ActionResult<IEnumerable<Models.Banner>>> GetBanners()
         {
             var banners = await bannerService.GetBannersAsync();
             return Ok(mapper.Map<Models.Banner[]>(banners));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Banner>> GetBanner(int id)
+        public async Task<ActionResult<Models.Banner>> GetBanner(int id)
         {
             var banner = await bannerService.GetBannerAsync(id);
             if (banner == null)

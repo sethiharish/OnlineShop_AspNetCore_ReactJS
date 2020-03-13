@@ -17,5 +17,9 @@ namespace OnlineShop_AspNetCore_ReactJS.Data
         public DbSet<Pie> Pie { get; set; }
 
         public DbSet<ShoppingCartItem> ShoppingCartItem { get; set; }
+
+        public DbSet<Iteration> Iteration { get; set; }
+
+        public DbSet<WorkItem> WorkItem { get; set; }
     }
 }
