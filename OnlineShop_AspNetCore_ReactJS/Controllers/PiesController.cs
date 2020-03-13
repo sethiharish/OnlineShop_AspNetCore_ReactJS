@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using OnlineShop_AspNetCore_ReactJS.Data.Entities;
 using OnlineShop_AspNetCore_ReactJS.Services;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -24,7 +21,7 @@ namespace OnlineShop_AspNetCore_ReactJS.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Pie>>> GetPies(bool? isPieOfTheWeek)
+        public async Task<ActionResult<IEnumerable<Models.Pie>>> GetPies(bool? isPieOfTheWeek)
         {
             IEnumerable<Pie> pies;
             if (isPieOfTheWeek.HasValue && isPieOfTheWeek.Value)
@@ -39,7 +36,7 @@ namespace OnlineShop_AspNetCore_ReactJS.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Pie>> GetPie(int id)
+        public async Task<ActionResult<Models.Pie>> GetPie(int id)
         {
             var pie = await pieService.GetPieAsync(id);
             if (pie == null)
