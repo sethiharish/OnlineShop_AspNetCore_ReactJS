@@ -56,6 +56,8 @@ namespace OnlineShop_AspNetCore_ReactJS
 
                 return new ShoppingCartService(dbContext, shoppingCartId);
             });
+            services.AddScoped<IIterationService, IterationService>();
+            services.AddScoped<IWorkItemService, WorkItemService>();
 
             services.AddAutoMapper(typeof(Startup).Assembly);
         }
