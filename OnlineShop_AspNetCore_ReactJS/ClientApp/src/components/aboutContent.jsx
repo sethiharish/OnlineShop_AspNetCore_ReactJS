@@ -7,21 +7,21 @@ const AboutContent = props => {
   const { items, error, itemDataLoading, onLoad } = props;
 
   return (
-    <React.Fragment>
-      {error && <ErrorMessage componentName={displayName} />}
-      {!error && itemDataLoading && (
-        <Spinner componentName={displayName} spinnerOnly />
-      )}
-      {!error && items && (
-        <div className="col-sm-9">
-          <div>
+    <div className="col-sm-9">
+      <div>
+        {error && <ErrorMessage componentName={displayName} />}
+        {!error && itemDataLoading && (
+          <Spinner componentName={displayName} spinnerOnly />
+        )}
+        {!error && items && (
+          <React.Fragment>
             {items.map(item => (
               <React.Fragment key={item.id}>
                 {item.iterationName === "Application Overview" && (
-                  <React.Fragment>
-                    <div>
+                  <div style={itemDataLoading ? { display: "none" } : null}>
+                    <p>
                       <b>Author:</b> Harish Sethi
-                    </div>
+                    </p>
                     <div>
                       <b>Online Pie Shop</b> is a fictitious e-commerce
                       application that allows the pie shop company to sell pies
@@ -53,7 +53,7 @@ const AboutContent = props => {
                         </li>
                       </ul>
                     </div>
-                  </React.Fragment>
+                  </div>
                 )}
                 {item.iterationName !== "Application Overview" && (
                   <div className="row mb-2">
@@ -77,10 +77,10 @@ const AboutContent = props => {
                 )}
               </React.Fragment>
             ))}
-          </div>
-        </div>
-      )}
-    </React.Fragment>
+          </React.Fragment>
+        )}
+      </div>
+    </div>
   );
 };
 
