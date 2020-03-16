@@ -30,7 +30,7 @@ const PiesOfTheWeek = props => {
                       alt={pie.name}
                       onLoad={() => onLoad(pie)}
                     ></img>
-                    <Link to={`/pies/${pie.id}`}>{pie.name}</Link>
+                    <Link to={`/react/pies/${pie.id}`}>{pie.name}</Link>
                     <span className="float-right">${pie.price}</span>
                     <p>{pie.shortDescription}</p>
                     <button

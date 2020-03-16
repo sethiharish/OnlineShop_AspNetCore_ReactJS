@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import Home from "./components/home";
 import { NavMenu } from "./components/NavMenu";
 import PieDetail from "./components/pieDetail";
@@ -17,11 +17,12 @@ class App extends Component {
       <React.Fragment>
         <NavMenu />
         <Switch>
-          <Route path="/shoppingcart" component={ShoppingCart} />
-          <Route path="/pies/:id" component={PieDetail} />
-          <Route path="/pies" component={PieList} />
-          <Route path="/about" component={About} />
-          <Route exact path="/" component={Home} />
+          <Route path="/react/shoppingcart" component={ShoppingCart} />
+          <Route path="/react/pies/:id" component={PieDetail} />
+          <Route path="/react/pies" component={PieList} />
+          <Route path="/react/about" component={About} />
+          <Route exact path="/react" component={Home} />
+          <Redirect exact from="/" to="/react" />
         </Switch>
       </React.Fragment>
     );

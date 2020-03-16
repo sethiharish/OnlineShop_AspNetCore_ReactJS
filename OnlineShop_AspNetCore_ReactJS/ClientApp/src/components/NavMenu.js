@@ -26,21 +26,21 @@ export class NavMenu extends Component {
       <header>
         <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
           <Container>
-            <NavbarBrand tag={Link} to="/">Online Pie Shop</NavbarBrand>
+            <NavbarBrand tag={Link} to="/react">Online Pie Shop</NavbarBrand>
             <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
               <ul className="navbar-nav flex-grow">
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
+                  <NavLink tag={Link} className="text-dark" to="/react">Home</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/pies">All Pies</NavLink>
+                  <NavLink tag={Link} className="text-dark" to="/react/pies">All Pies</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/about">About</NavLink>
+                  <NavLink tag={Link} className="text-dark" to="/react/about">About</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/shoppingcart"><i className="fa fa-shopping-cart fa-2x"></i></NavLink>
+                  <NavLink tag={Link} className="text-dark" to="/react/shoppingcart"><i className="fa fa-shopping-cart fa-2x"></i></NavLink>
                 </NavItem>
               </ul>
             </Collapse>
