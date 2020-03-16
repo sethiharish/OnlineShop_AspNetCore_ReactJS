@@ -7,6 +7,7 @@ import PieList from "./components/pieList";
 import ShoppingCart from "./components/shoppingCart";
 import "font-awesome/css/font-awesome.css";
 import About from "./components/about";
+import NotFound from "./components/notFound";
 import "./custom.css";
 
 class App extends Component {
@@ -21,8 +22,10 @@ class App extends Component {
           <Route path="/react/pies/:id" component={PieDetail} />
           <Route path="/react/pies" component={PieList} />
           <Route path="/react/about" component={About} />
+          <Route path="/react/notfound" component={NotFound} />
           <Route exact path="/react" component={Home} />
           <Redirect exact from="/" to="/react" />
+          <Redirect to="/react/notfound" />
         </Switch>
       </React.Fragment>
     );
