@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop_AspNetCore_ReactJS.Services;
 using System.Threading.Tasks;
 
 namespace OnlineShop_AspNetCore_ReactJS.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class ShoppingCartController : ControllerBase
@@ -20,6 +22,10 @@ namespace OnlineShop_AspNetCore_ReactJS.Controllers
             this.mapper = mapper;
         }
 
+        /// <summary>
+        /// Get Shopping Cart Items for a specific user
+        /// </summary>
+        /// <returns>Returns Shopping Cart Items for a specific user</returns>
         [HttpGet]
         public async Task<ActionResult<Models.ShoppingCartItem[]>> GetShoppingCartItemsAsync()
         {
@@ -27,7 +33,46 @@ namespace OnlineShop_AspNetCore_ReactJS.Controllers
             return mapper.Map<Models.ShoppingCartItem[]>(items);
         }
 
+        /// <summary>
+        /// Update Shopping Cart Items for a specific user
+        /// </summary>
+        /// <remarks>
+        /// Sample POST requests:
+        ///     
+        ///     {
+        ///        "pieId": 1,
+        ///        "quantity": 1,
+        ///        "action": "INCREASE_ITEM_QUANTITY"
+        ///     }
+        ///
+        ///     {
+        ///        "pieId": 1,
+        ///        "quantity": 1,
+        ///        "action": "DECREASE_ITEM_QUANTITY"
+        ///     }
+        ///
+        ///     {
+        ///        "pieId": 1,
+        ///        "action": "REMOVE_ITEM"
+        ///     }
+        ///
+        ///     {
+        ///        "action": "CLEAR_CART"
+        ///     }
+        ///
+        ///     "pieId" and "quantity" are optional parameters
+        ///     
+        ///     "quantity" >= 1 (If not pased, defaults to 1)
+        ///     
+        ///     "action" = "INCREASE_ITEM_QUANTITY" / "DECREASE_ITEM_QUANTITY" / "REMOVE_ITEM" / "CLEAR_CART"
+        ///     
+        ///     Returns true for successful update and false for no update i.e. action performed against an item that didn't exist in the cart
+        /// </remarks>
+        /// <param name="shoppingCartAction"></param>
+        /// <returns>Returns true for successful update and false for no update</returns>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<bool>> UpdateShoppingCartItemsAsync(Models.ShoppingCartAction shoppingCartAction)
         {
             int count = 0;
