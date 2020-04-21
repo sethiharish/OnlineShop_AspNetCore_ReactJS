@@ -18,6 +18,7 @@ class App extends Component {
       <React.Fragment>
         <NavMenu />
         <Switch>
+          <Route path="/react/swagger" component={() => { window.location.href = window.location.origin + "/swagger"; return null; }} />
           <Route path="/react/shoppingcart" component={ShoppingCart} />
           <Route path="/react/pies/:id" component={PieDetail} />
           <Route path="/react/pies" component={PieList} />

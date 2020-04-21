@@ -20,10 +20,6 @@ export class NavMenu extends Component {
       collapsed: !this.state.collapsed
     });
   }
-  
-  goToSwaggerUI () {
-    window.location = "/swagger";
-  }
 
   render () {
     return (
@@ -44,7 +40,7 @@ export class NavMenu extends Component {
                   <NavLink tag={Link} className="text-dark" to="/react/about">About</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" onClick={this.goToSwaggerUI} to="#">SwaggerUI</NavLink>
+                  <NavLink tag={Link} className="text-dark" to="/react/swagger">SwaggerUI</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink tag={Link} className="text-dark" to="/react/shoppingcart"><i className="fa fa-shopping-cart fa-2x"></i></NavLink>
