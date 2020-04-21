@@ -177,9 +177,10 @@ namespace OnlineShop_AspNetCore_ReactJS.Data
             Iteration iterationApplicationOverview = new Iteration { Name = "Application Overview" };
             Iteration iteration1 = new Iteration { Name = "Iteration 1" };
             Iteration iteration2 = new Iteration { Name = "Iteration 2" };
+            Iteration iteration3 = new Iteration { Name = "Iteration 3" };
             if (!context.Iteration.Any())
             {
-                iterations = new Iteration[] { iterationApplicationOverview, iteration1, iteration2 };
+                iterations = new Iteration[] { iterationApplicationOverview, iteration1, iteration2, iteration3 };
                 context.Iteration.AddRange(iterations);
             }
 
@@ -252,6 +253,30 @@ namespace OnlineShop_AspNetCore_ReactJS.Data
                         Name = "Iteration2 - Continuous Integration Build Detail View 2",
                         ImageUrl = "/images/devops/Azure_CI_Build_1_Detail_2.jpg",
                         Iteration = iteration2
+                    },
+                    new WorkItem
+                    {
+                        Name = "Iteration3 - Iteration Board View",
+                        ImageUrl = "/images/devops/Azure_Board_Iteration3_1.jpg",
+                        Iteration = iteration3
+                    },
+                    new WorkItem
+                    {
+                        Name = "Iteration3 - Azure Board View 1",
+                        ImageUrl = "/images/devops/Azure_Board_Iteration3_2.jpg",
+                        Iteration = iteration3
+                    },
+                    new WorkItem
+                    {
+                        Name = "Iteration3 - Azure Board View 2",
+                        ImageUrl = "/images/devops/Azure_Board_Iteration3_3.jpg",
+                        Iteration = iteration3
+                    },
+                    new WorkItem
+                    {
+                        Name = "Iteration3 - OpenApi / Swagger UI View",
+                        ImageUrl = "/images/devops/Azure_Board_Iteration3_4.jpg",
+                        Iteration = iteration3
                     }
                 };
                 context.WorkItem.AddRange(workItems);
