@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace OnlineShop_AspNetCore_ReactJS.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class WorkItemsController : ControllerBase
@@ -19,6 +20,10 @@ namespace OnlineShop_AspNetCore_ReactJS.Controllers
             this.mapper = mapper;
         }
 
+        /// <summary>
+        /// Get All WorkItems
+        /// </summary>
+        /// <returns>Returns All WorkItems</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Models.WorkItem>>> GetWorkItems()
         {
