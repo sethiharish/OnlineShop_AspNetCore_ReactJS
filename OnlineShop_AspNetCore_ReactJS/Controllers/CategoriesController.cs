@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop_AspNetCore_ReactJS.Services;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace OnlineShop_AspNetCore_ReactJS.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase
@@ -19,6 +21,10 @@ namespace OnlineShop_AspNetCore_ReactJS.Controllers
             this.mapper = mapper;
         }
 
+        /// <summary>
+        /// Get All Categories
+        /// </summary>
+        /// <returns>Returns All Categories</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Models.Category>>> GetCategories()
         {
@@ -26,13 +32,20 @@ namespace OnlineShop_AspNetCore_ReactJS.Controllers
             return Ok(mapper.Map<Models.Category[]>(categories));
         }
 
-        [HttpGet("{id}")]
+        /// <summary>
+        /// Get Category with specific id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Returns Category with specific id</returns>
+        [HttpGet("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Models.Category>> GetCategory(int id)
         {
             var category = await categoryService.GetCategoryAsync(id);
             if (category == null)
             {
-                return NotFound();
+                return NotFound($"Category id {id} is invalid!");
             }
             return Ok(mapper.Map<Models.Category>(category));
         }

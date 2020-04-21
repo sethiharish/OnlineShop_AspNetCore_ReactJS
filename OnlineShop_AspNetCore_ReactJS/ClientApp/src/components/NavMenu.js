@@ -40,6 +40,9 @@ export class NavMenu extends Component {
                   <NavLink tag={Link} className="text-dark" to="/react/about">About</NavLink>
                 </NavItem>
                 <NavItem>
+                  <a class="text-dark nav-link" href="/swagger/index.html">SwaggerUI</a>
+                </NavItem>
+                <NavItem>
                   <NavLink tag={Link} className="text-dark" to="/react/shoppingcart"><i className="fa fa-shopping-cart fa-2x"></i></NavLink>
                 </NavItem>
               </ul>

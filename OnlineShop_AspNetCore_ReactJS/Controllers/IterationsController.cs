@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace OnlineShop_AspNetCore_ReactJS.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class IterationsController : ControllerBase
@@ -19,6 +20,10 @@ namespace OnlineShop_AspNetCore_ReactJS.Controllers
             this.mapper = mapper;
         }
 
+        /// <summary>
+        /// Get All Iterations
+        /// </summary>
+        /// <returns>Returns All Iterations</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Models.Iteration>>> GetIterations()
         {
