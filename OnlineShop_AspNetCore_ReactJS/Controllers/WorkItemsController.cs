@@ -25,7 +25,7 @@ namespace OnlineShop_AspNetCore_ReactJS.Controllers
         /// </summary>
         /// <returns>Returns All WorkItems</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Models.WorkItem>>> GetWorkItems()
+        public async Task<ActionResult<IEnumerable<Models.WorkItem>>> GetWorkItemsAsync()
         {
             var workItems = await workItemService.GetWorkItemsAsync();
             return Ok(mapper.Map<Models.WorkItem[]>(workItems));

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OnlineShop_AspNetCore_ReactJS.Helpers;
 using OnlineShop_AspNetCore_ReactJS.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -26,7 +27,7 @@ namespace OnlineShop_AspNetCore_ReactJS.Controllers
         /// </summary>
         /// <returns>Returns All Banners</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Models.Banner>>> GetBanners()
+        public async Task<ActionResult<IEnumerable<Models.Banner>>> GetBannersAsync()
         {
             var banners = await bannerService.GetBannersAsync();
             return Ok(mapper.Map<Models.Banner[]>(banners));
@@ -40,12 +41,12 @@ namespace OnlineShop_AspNetCore_ReactJS.Controllers
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Models.Banner>> GetBanner(int id)
+        public async Task<ActionResult<Models.Banner>> GetBannerAsync(int id)
         {
             var banner = await bannerService.GetBannerAsync(id);
             if (banner == null)
             {
-                return NotFound($"Banner id {id} is invalid!");
+                return NotFound(ErrorMessage.InvalidData(Constant.NotFound, typeof(Models.Banner), Constant.Id, id.ToString()));
             }
             return Ok(mapper.Map<Models.Banner>(banner));
         }
