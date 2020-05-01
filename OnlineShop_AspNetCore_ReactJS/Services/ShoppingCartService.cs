@@ -22,11 +22,16 @@ namespace OnlineShop_AspNetCore_ReactJS.Services
         {
             return await context.ShoppingCartItem.Where(i => i.ShoppingCartId == shoppingCartId).Include(i => i.Pie).ToListAsync();
         }
-        
+
+        public async Task<ShoppingCartItem> GetShoppingCartItemAsync(int pieId)
+        {
+            return await context.ShoppingCartItem.Include(i => i.Pie).FirstOrDefaultAsync(i => i.ShoppingCartId == shoppingCartId && i.PieId == pieId);
+        }
+
         public async Task<int> IncreaseShoppingCartItemQuantityAsync(int pieId, int quantity)
         {
-            var shoppingCartItem = await context.ShoppingCartItem.FirstOrDefaultAsync(i => i.ShoppingCartId == shoppingCartId && i.PieId == pieId);
-            if(shoppingCartItem == null)
+            var shoppingCartItem = await GetShoppingCartItemAsync(pieId);
+            if (shoppingCartItem == null)
             {
                 context.ShoppingCartItem.Add(new ShoppingCartItem { ShoppingCartId = shoppingCartId, PieId = pieId, Quantity = quantity });
             }
@@ -35,14 +40,14 @@ namespace OnlineShop_AspNetCore_ReactJS.Services
                 shoppingCartItem.Quantity += quantity;
                 context.Entry(shoppingCartItem).State = EntityState.Modified;
             }
-            
+
             int count = await context.SaveChangesAsync();
             return count;
         }
-
+        
         public async Task<int> DecreaseShoppingCartItemQuantityAsync(int pieId, int quantity)
         {
-            var shoppingCartItem = await context.ShoppingCartItem.FirstOrDefaultAsync(i => i.ShoppingCartId == shoppingCartId && i.PieId == pieId);
+            var shoppingCartItem = await GetShoppingCartItemAsync(pieId);
             if (shoppingCartItem != null)
             {
                 shoppingCartItem.Quantity -= quantity;
@@ -62,7 +67,7 @@ namespace OnlineShop_AspNetCore_ReactJS.Services
 
         public async Task<int> RemoveShoppingCartItemAsync(int pieId)
         {
-            var shoppingCartItem = await context.ShoppingCartItem.FirstOrDefaultAsync(i => i.ShoppingCartId == shoppingCartId && i.PieId == pieId);
+            var shoppingCartItem = await GetShoppingCartItemAsync(pieId);
             if (shoppingCartItem != null)
             {
                 context.Entry(shoppingCartItem).State = EntityState.Deleted;

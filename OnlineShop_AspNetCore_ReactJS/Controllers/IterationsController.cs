@@ -25,7 +25,7 @@ namespace OnlineShop_AspNetCore_ReactJS.Controllers
         /// </summary>
         /// <returns>Returns All Iterations</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Models.Iteration>>> GetIterations()
+        public async Task<ActionResult<IEnumerable<Models.Iteration>>> GetIterationsAsync()
         {
             var iterations = await iterationService.GetIterationsAsync();
             return Ok(mapper.Map<Models.Iteration[]>(iterations));

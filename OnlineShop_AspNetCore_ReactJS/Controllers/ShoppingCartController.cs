@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OnlineShop_AspNetCore_ReactJS.Helpers;
 using OnlineShop_AspNetCore_ReactJS.Services;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace OnlineShop_AspNetCore_ReactJS.Controllers
@@ -27,10 +29,10 @@ namespace OnlineShop_AspNetCore_ReactJS.Controllers
         /// </summary>
         /// <returns>Returns Shopping Cart Items for a specific user</returns>
         [HttpGet]
-        public async Task<ActionResult<Models.ShoppingCartItem[]>> GetShoppingCartItemsAsync()
+        public async Task<ActionResult<IEnumerable<Models.ShoppingCartItem>>> GetShoppingCartItemsAsync()
         {
             var items = await shoppingCartService.GetShoppingCartItemsAsync();
-            return mapper.Map<Models.ShoppingCartItem[]>(items);
+            return Ok(mapper.Map<Models.ShoppingCartItem[]>(items));
         }
 
         /// <summary>
@@ -87,7 +89,7 @@ namespace OnlineShop_AspNetCore_ReactJS.Controllers
                 var pie = await pieService.GetPieAsync(shoppingCartAction.PieId);
                 if (pie == null)
                 {
-                    return BadRequest($"PieId {shoppingCartAction.PieId} is invalid!");
+                    return BadRequest(ErrorMessage.InvalidData(Constant.BadRequest, typeof(Models.Pie), Constant.Id, shoppingCartAction.PieId.ToString()));
                 }
 
                 if (shoppingCartAction.Action.ToUpperInvariant() == "INCREASE_ITEM_QUANTITY")
@@ -105,10 +107,10 @@ namespace OnlineShop_AspNetCore_ReactJS.Controllers
             }
             else
             {
-                return BadRequest($"ShoppingCart Action {shoppingCartAction.Action} is invalid!");
+                return BadRequest(ErrorMessage.InvalidData(Constant.BadRequest, typeof(Models.ShoppingCartAction), Constant.Action, shoppingCartAction.Action));
             }
 
-            return count > 0;
+            return Ok(count > 0);
         }
     }
 }

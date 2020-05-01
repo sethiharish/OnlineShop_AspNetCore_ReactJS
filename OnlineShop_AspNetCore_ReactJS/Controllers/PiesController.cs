@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop_AspNetCore_ReactJS.Data.Entities;
+using OnlineShop_AspNetCore_ReactJS.Helpers;
 using OnlineShop_AspNetCore_ReactJS.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace OnlineShop_AspNetCore_ReactJS.Controllers
         /// <param name="isPieOfTheWeek">Optional parameter</param>
         /// <returns>Returns All Pies or Pies Of The Week</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Models.Pie>>> GetPies(bool? isPieOfTheWeek)
+        public async Task<ActionResult<IEnumerable<Models.Pie>>> GetPiesAsync(bool? isPieOfTheWeek)
         {
             IEnumerable<Pie> pies;
             if (isPieOfTheWeek.HasValue && isPieOfTheWeek.Value)
@@ -50,12 +51,12 @@ namespace OnlineShop_AspNetCore_ReactJS.Controllers
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Models.Pie>> GetPie(int id)
+        public async Task<ActionResult<Models.Pie>> GetPieAsync(int id)
         {
             var pie = await pieService.GetPieAsync(id);
             if (pie == null)
             {
-                return NotFound($"Pie id {id} is invalid!");
+                return NotFound(ErrorMessage.InvalidData(Constant.NotFound, typeof(Pie), Constant.Id, id.ToString()));
             }
             return Ok(mapper.Map<Models.Pie>(pie));
         }

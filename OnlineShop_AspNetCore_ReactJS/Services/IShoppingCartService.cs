@@ -10,6 +10,8 @@ namespace OnlineShop_AspNetCore_ReactJS.Services
     {
         Task<IEnumerable<ShoppingCartItem>> GetShoppingCartItemsAsync();
 
+        Task<ShoppingCartItem> GetShoppingCartItemAsync(int pieId);
+
         Task<int> IncreaseShoppingCartItemQuantityAsync(int pieId, int quantity);
 
         Task<int> DecreaseShoppingCartItemQuantityAsync(int pieId, int quantity);
