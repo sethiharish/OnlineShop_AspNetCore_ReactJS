@@ -2,7 +2,7 @@ import React from "react";
 import ErrorMessage from "./common/errorMessage";
 import Spinner from "./common/spinner";
 
-const AboutContent = props => {
+const AboutContent = (props) => {
   const displayName = "About Content";
   const { items, error, itemDataLoading, onLoad } = props;
 
@@ -15,7 +15,7 @@ const AboutContent = props => {
         )}
         {!error && items && (
           <React.Fragment>
-            {items.map(item => (
+            {items.map((item) => (
               <React.Fragment key={item.id}>
                 {item.iterationName === "Application Overview" && (
                   <div style={itemDataLoading ? { display: "none" } : null}>
@@ -38,18 +38,30 @@ const AboutContent = props => {
                     <div>
                       It has been built using following <b>technology stack:</b>
                       <ul>
-                        <li>Front end - ReactJS</li>
+                        <li>Front end - ReactJS &amp; Bootstrap</li>
                         <li>
-                          Back end - REST / Web Apis using .Net Core, C# and
-                          SQLite
+                          Back end - REST / Web APIs using Asp.Net Core, C#
+                          &amp; SQLite
                         </li>
                         <li>
                           Azure board for work item creation &amp; tracking
                         </li>
-                        <li>Azure Repository</li>
                         <li>
-                          Azure pipelines for running Continuous Integration
+                          Azure Repository (GIT) for maintaining the source code
+                          history
+                        </li>
+                        <li>
+                          Azure pipelines for running continuous integration
                           build
+                        </li>
+                        <li>
+                          Google cloud build for running continuous deployment
+                          build, to Google cloud app engine (PAAS)
+                        </li>
+                        <li>Docker / Containers</li>
+                        <li>
+                          Test driven development / Unit testing / Integration
+                          testing
                         </li>
                       </ul>
                     </div>
