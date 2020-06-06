@@ -1,3 +1,5 @@
+[![Docker Repository on Quay](https://quay.io/repository/sethihemant/onlineshop_aspnetcore_reactjs/status "Docker Repository on Quay")](https://quay.io/repository/sethihemant/onlineshop_aspnetcore_reactjs)
+
 ## Online Pie Shop (Asp .net Core, C#, SQLite, ReactJS, Bootstrap)
 
 Online Pie Shop is a fictitious e-commerce application, that allows the pie shop company to sell pies online.
@@ -49,17 +51,21 @@ Prerequisite:
 
 1. Make sure that docker componse is installed on the host. Refer to the [link](https://docs.docker.com/compose/install/) for installation.
 
+2. Optional for developers: If you wish to run the latest version of the app pushed to the container registry, login into the container registry using your user's credentials. Do `docker login -u="$USER_NAME" -p="ENCRYPTED_PASSWORD" quay.io`. USER_NAME and ENCRYPTED_PASSWORD would be available in the account settings tab on you quay account if you would have access to the quay repository hosting the images.
+
 Steps:
 
 1. Open Bash (Linux shell) and navigate to code folder where Dockerfile is present, execute `cd OnlineShop_AspNetCore_ReactJS/OnlineShop_AspNetCore_ReactJS/`
 
-2. execute `docker-compose up -d`
+2. execute `docker-compose up -d`.
 
 3. Open the browser and navigate to [http://localhost:8080/](http://localhost:8080/)
 
 4. To test the REST Apis navigate to [SwaggerUI](http://localhost:8080/swagger/index.html)
 
 5. This also runs the mongodb container which is exposed on the default mongo db port on the host.
+
+6. Use `docker-compose down` to bring down the containers once done.
 
 ## To Run without Docker
 

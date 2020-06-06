@@ -1,6 +1,7 @@
 version: '2.0'
 services:
   web:
+    image: onlineshop_aspnetcore_reactjs:latest
     build: .
     ports:
     - "8080:8080"
