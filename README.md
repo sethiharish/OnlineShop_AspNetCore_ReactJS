@@ -43,6 +43,18 @@ There are two ways to run the code locally:
 
 5. To test the REST Apis navigate to [SwaggerUI](http://localhost:8080/swagger/index.html)
 
+## Run using Docker Compose
+
+1. Open Bash (Linux shell) and navigate to code folder where Dockerfile is present, execute `cd OnlineShop_AspNetCore_ReactJS/OnlineShop_AspNetCore_ReactJS/`
+
+2. execute `docker-compose up -d`
+
+3. Open the browser and navigate to [http://localhost:8080/](http://localhost:8080/)
+
+4. To test the REST Apis navigate to [SwaggerUI](http://localhost:8080/swagger/index.html)
+
+5. This also runs the mongodb container which is exposed on the default mongo db port on the host.
+
 ## To Run without Docker
 
 1. Navigate to ClientApp folder, execute `cd OnlineShop_AspNetCore_ReactJS\OnlineShop_AspNetCore_ReactJS\ClientApp`
