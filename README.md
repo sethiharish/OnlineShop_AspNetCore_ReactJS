@@ -45,6 +45,12 @@ There are two ways to run the code locally:
 
 ## Run using Docker Compose
 
+Prerequisite:
+
+1. Make sure that docker componse is installed on the host. Refer to the [link](https://docs.docker.com/compose/install/) for installation.
+
+Steps:
+
 1. Open Bash (Linux shell) and navigate to code folder where Dockerfile is present, execute `cd OnlineShop_AspNetCore_ReactJS/OnlineShop_AspNetCore_ReactJS/`
 
 2. execute `docker-compose up -d`
