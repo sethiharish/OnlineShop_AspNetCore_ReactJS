@@ -1,24 +1,24 @@
 import React from "react";
-import ErrorMessage from "./common/errorMessage";
-import Spinner from "./common/spinner";
+import ErrorMessage from "../common/errorMessage";
+import Spinner from "../common/spinner";
 
 const AboutContent = (props) => {
   const displayName = "About Content";
-  const { items, error, itemDataLoading, onLoad } = props;
+  const { workItems, error, workItemDataLoading, onLoad } = props;
 
   return (
     <div className="col-sm-9">
       <div>
         {error && <ErrorMessage componentName={displayName} />}
-        {!error && itemDataLoading && (
+        {!error && workItemDataLoading && (
           <Spinner componentName={displayName} spinnerOnly />
         )}
-        {!error && items && (
+        {!error && workItems && (
           <React.Fragment>
-            {items.map((item) => (
-              <React.Fragment key={item.id}>
-                {item.iterationName === "Application Overview" && (
-                  <div style={itemDataLoading ? { display: "none" } : null}>
+            {workItems.map((workItem) => (
+              <React.Fragment key={workItem.id}>
+                {workItem.iterationName === "Application Overview" && (
+                  <div style={workItemDataLoading ? { display: "none" } : null}>
                     <p>
                       <b>Author:</b> Harish Sethi
                     </p>
@@ -67,22 +67,22 @@ const AboutContent = (props) => {
                     </div>
                   </div>
                 )}
-                {item.iterationName !== "Application Overview" && (
+                {workItem.iterationName !== "Application Overview" && (
                   <div className="row mb-2">
-                    {!error && !item.loaded && (
+                    {!error && !workItem.loaded && (
                       <Spinner componentName={displayName} />
                     )}
                     <div
                       className="border px-4 mb-2"
-                      style={!item.loaded ? { display: "none" } : null}
+                      style={!workItem.loaded ? { display: "none" } : null}
                     >
-                      <h5>{item.name}</h5>
+                      <h5>{workItem.name}</h5>
                       <img
                         className="img-fluid"
-                        src={item.imageUrl}
-                        title={item.name}
-                        alt={item.name}
-                        onLoad={() => onLoad(item)}
+                        src={workItem.imageUrl}
+                        title={workItem.name}
+                        alt={workItem.name}
+                        onLoad={() => onLoad(workItem)}
                       ></img>
                     </div>
                   </div>

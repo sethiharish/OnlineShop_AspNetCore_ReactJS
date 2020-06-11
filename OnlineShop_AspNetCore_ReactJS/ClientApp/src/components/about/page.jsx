@@ -1,64 +1,64 @@
 import React, { Component } from "react";
-import AboutContent from "./aboutContent";
-import AboutSideBar from "./aboutSideBar";
-import iterationService from "../services/iterationService";
-import workItemService from "../services/workItemService";
+import AboutContent from "./content";
+import AboutSideBar from "./sideBar";
+import iterationService from "../../services/iterationService";
+import workItemService from "../../services/workItemService";
 
 class About extends Component {
   state = {
-    itemData: { items: [], error: null },
+    workItemData: { workItems: [], error: null },
     iterationData: { iterations: [], selectedIteration: null, error: null },
     iterationDataLoading: true,
-    itemDataLoading: true
+    workItemDataLoading: true,
   };
 
   async componentDidMount() {
-    const iterationData = await iterationService.getIterations();
+    const [iterationData, workItemData] = await Promise.all([
+      iterationService.getIterations(),
+      workItemService.getWorkItems(),
+    ]);
+
     this.setState({
       iterationData: {
         iterations: iterationData.data ? iterationData.data : [],
         selectedIteration: iterationData.data ? iterationData.data[0] : null,
-        error: iterationData.error
+        error: iterationData.error,
       },
-      iterationDataLoading: false
-    });
-
-    const itemData = await workItemService.getWorkItems();
-    this.setState({
-      itemData: { items: itemData.data, error: itemData.error },
-      itemDataLoading: false
+      iterationDataLoading: false,
+      workItemData: { workItems: workItemData.data, error: workItemData.error },
+      workItemDataLoading: false,
     });
   }
 
-  handleIterationSelected = iteration => {
+  handleIterationSelected = (iteration) => {
     const iterationDataClone = { ...this.state.iterationData };
     iterationDataClone.selectedIteration = iteration;
     this.setState({ iterationData: iterationDataClone });
   };
 
-  handleItemImageLoad = item => {
-    const itemDataClone = { ...this.state.itemData };
-    const itemsClone = [...itemDataClone.items];
-    const index = itemsClone.indexOf(item);
-    const itemClone = { ...itemsClone[index] };
+  handleItemImageLoad = (item) => {
+    const workItemDataClone = { ...this.state.workItemData };
+    const workItemsClone = [...workItemDataClone.workItems];
+    const index = workItemsClone.indexOf(item);
+    const itemClone = { ...workItemsClone[index] };
     itemClone.loaded = true;
-    itemsClone[index] = itemClone;
-    itemDataClone.items = itemsClone;
-    this.setState({ itemData: itemDataClone });
+    workItemsClone[index] = itemClone;
+    workItemDataClone.workItems = workItemsClone;
+    this.setState({ workItemData: workItemDataClone });
   };
 
   render() {
-    const { items, error: itemsError } = this.state.itemData;
+    const { workItems, error: workItemsError } = this.state.workItemData;
     const {
       iterations,
       selectedIteration,
-      error: iterationsError
+      error: iterationsError,
     } = this.state.iterationData;
-    const { iterationDataLoading, itemDataLoading } = this.state;
+    const { iterationDataLoading, workItemDataLoading } = this.state;
 
-    const filteredItems = items
-      ? items.filter(
-          item =>
+    const filteredItems = workItems
+      ? workItems.filter(
+          (item) =>
             (selectedIteration && item.iterationId === selectedIteration.id) ||
             (!selectedIteration &&
               item.iterationName === "Application Overview")
@@ -76,9 +76,9 @@ class About extends Component {
             onIterationSelected={this.handleIterationSelected}
           />
           <AboutContent
-            items={filteredItems}
-            itemDataLoading={itemDataLoading}
-            error={itemsError}
+            workItems={filteredItems}
+            workItemDataLoading={workItemDataLoading}
+            error={workItemsError}
             onLoad={this.handleItemImageLoad}
           />
         </div>

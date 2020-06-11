@@ -1,5 +1,5 @@
 import React from "react";
-import ErrorMessage from "./common/errorMessage";
+import ErrorMessage from "../common/errorMessage";
 
 const NotFound = () => {
   return (

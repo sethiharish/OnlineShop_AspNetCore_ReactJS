@@ -1,8 +1,8 @@
 import React from "react";
-import ErrorMessage from "./common/errorMessage";
-import Spinner from "./common/spinner";
+import ErrorMessage from "../common/errorMessage";
+import Spinner from "../common/spinner";
 
-const ShoppingCartContent = props => {
+const ShoppingCartContent = (props) => {
   const displayName = "Shopping Cart Content";
   const {
     items,
@@ -11,7 +11,7 @@ const ShoppingCartContent = props => {
     onQuantityIncreased,
     onQuantityDecreased,
     onItemRemoved,
-    onCartCleared
+    onCartCleared,
   } = props;
 
   return (
@@ -56,7 +56,7 @@ const ShoppingCartContent = props => {
                 </tr>
               </thead>
               <tbody>
-                {items.map(item => (
+                {items.map((item) => (
                   <tr key={item.id}>
                     <td className="text-left">
                       <img
@@ -114,7 +114,7 @@ const ShoppingCartContent = props => {
                         (a, b) => ({
                           quantity: 1,
                           piePrice:
-                            a.quantity * a.piePrice + b.quantity * b.piePrice
+                            a.quantity * a.piePrice + b.quantity * b.piePrice,
                         }),
                         { quantity: 1, piePrice: 0 }
                       )
