@@ -7,5 +7,5 @@ async function getWorkItems() {
 }
 
 export default {
-  getWorkItems
+  getWorkItems,
 };

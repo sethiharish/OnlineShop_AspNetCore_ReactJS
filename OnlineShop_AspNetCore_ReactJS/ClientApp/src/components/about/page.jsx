@@ -36,13 +36,13 @@ class About extends Component {
     this.setState({ iterationData: iterationDataClone });
   };
 
-  handleItemImageLoad = (item) => {
+  handleItemImageLoad = (workItem) => {
     const workItemDataClone = { ...this.state.workItemData };
     const workItemsClone = [...workItemDataClone.workItems];
-    const index = workItemsClone.indexOf(item);
-    const itemClone = { ...workItemsClone[index] };
-    itemClone.loaded = true;
-    workItemsClone[index] = itemClone;
+    const index = workItemsClone.indexOf(workItem);
+    const workItemClone = { ...workItemsClone[index] };
+    workItemClone.loaded = true;
+    workItemsClone[index] = workItemClone;
     workItemDataClone.workItems = workItemsClone;
     this.setState({ workItemData: workItemDataClone });
   };
@@ -58,10 +58,11 @@ class About extends Component {
 
     const filteredItems = workItems
       ? workItems.filter(
-          (item) =>
-            (selectedIteration && item.iterationId === selectedIteration.id) ||
+          (workItem) =>
+            (selectedIteration &&
+              workItem.iterationId === selectedIteration.id) ||
             (!selectedIteration &&
-              item.iterationName === "Application Overview")
+              workItem.iterationName === "Application Overview")
         )
       : [];
 

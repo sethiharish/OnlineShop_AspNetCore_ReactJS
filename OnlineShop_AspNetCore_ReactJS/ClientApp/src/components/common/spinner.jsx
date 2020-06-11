@@ -1,12 +1,12 @@
 import React from "react";
 
-const Spinner = props => {
+const Spinner = (props) => {
   const {
     message,
     componentName,
     colSpan,
     spinnerOnly,
-    showComponentName
+    showComponentName,
   } = props;
 
   return (
@@ -29,7 +29,7 @@ const Spinner = props => {
 Spinner.defaultProps = {
   colSpan: 4,
   spinnerOnly: false,
-  showComponentName: false
+  showComponentName: false,
 };
 
 export default Spinner;
