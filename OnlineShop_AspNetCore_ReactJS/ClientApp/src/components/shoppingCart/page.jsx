@@ -6,7 +6,7 @@ class ShoppingCart extends Component {
   updateQuantity = 1;
 
   state = {
-    shoppingCartData: { items: [], error: null },
+    shoppingCartData: { shoppingCartItems: [], error: null },
     shoppingCartDataLoading: true,
   };
 
@@ -14,30 +14,32 @@ class ShoppingCart extends Component {
     const shoppingCartData = await shoppingCartService.getShoppingCartItems();
     this.setState({
       shoppingCartData: {
-        items: shoppingCartData.data,
+        shoppingCartItems: shoppingCartData.data,
         error: shoppingCartData.error,
       },
       shoppingCartDataLoading: false,
     });
   }
 
-  handleQuantityDecreased = async (item) => {
+  handleQuantityDecreased = async (shoppingCartItem) => {
     const result = await shoppingCartService.decreaseItemQuantity(
-      item.pieId,
+      shoppingCartItem.pieId,
       this.updateQuantity
     );
     if (result.data) {
       const shoppingCartDataClone = { ...this.state.shoppingCartData };
-      const shoppingCartItemsClone = [...shoppingCartDataClone.items];
-      const index = shoppingCartItemsClone.indexOf(item);
+      const shoppingCartItemsClone = [
+        ...shoppingCartDataClone.shoppingCartItems,
+      ];
+      const index = shoppingCartItemsClone.indexOf(shoppingCartItem);
       const shoppingCartItemClone = { ...shoppingCartItemsClone[index] };
       shoppingCartItemClone.quantity -= this.updateQuantity;
       if (shoppingCartItemClone.quantity > 0) {
         shoppingCartItemsClone[index] = shoppingCartItemClone;
-        shoppingCartDataClone.items = shoppingCartItemsClone;
+        shoppingCartDataClone.shoppingCartItems = shoppingCartItemsClone;
       } else {
-        shoppingCartDataClone.items = shoppingCartItemsClone.filter(
-          (i) => i.pieId !== item.pieId
+        shoppingCartDataClone.shoppingCartItems = shoppingCartItemsClone.filter(
+          (i) => i.pieId !== shoppingCartItem.pieId
         );
       }
       this.setState({
@@ -46,32 +48,36 @@ class ShoppingCart extends Component {
     }
   };
 
-  handleQuantityIncreased = async (item) => {
+  handleQuantityIncreased = async (shoppingCartItem) => {
     const result = await shoppingCartService.increaseItemQuantity(
-      item.pieId,
+      shoppingCartItem.pieId,
       this.updateQuantity
     );
     if (result.data) {
       const shoppingCartDataClone = { ...this.state.shoppingCartData };
-      const shoppingCartItemsClone = [...shoppingCartDataClone.items];
-      const index = shoppingCartItemsClone.indexOf(item);
+      const shoppingCartItemsClone = [
+        ...shoppingCartDataClone.shoppingCartItems,
+      ];
+      const index = shoppingCartItemsClone.indexOf(shoppingCartItem);
       const shoppingCartItemClone = { ...shoppingCartItemsClone[index] };
       shoppingCartItemClone.quantity += this.updateQuantity;
       shoppingCartItemsClone[index] = shoppingCartItemClone;
-      shoppingCartDataClone.items = shoppingCartItemsClone;
+      shoppingCartDataClone.shoppingCartItems = shoppingCartItemsClone;
       this.setState({
         shoppingCartData: shoppingCartDataClone,
       });
     }
   };
 
-  handleItemRemoved = async (item) => {
-    const result = await shoppingCartService.removeItem(item.pieId);
+  handleItemRemoved = async (shoppingCartItem) => {
+    const result = await shoppingCartService.removeItem(shoppingCartItem.pieId);
     if (result.data) {
       const shoppingCartDataClone = { ...this.state.shoppingCartData };
-      const shoppingCartItemsClone = [...shoppingCartDataClone.items];
-      shoppingCartDataClone.items = shoppingCartItemsClone.filter(
-        (i) => i.pieId !== item.pieId
+      const shoppingCartItemsClone = [
+        ...shoppingCartDataClone.shoppingCartItems,
+      ];
+      shoppingCartDataClone.shoppingCartItems = shoppingCartItemsClone.filter(
+        (i) => i.pieId !== shoppingCartItem.pieId
       );
       this.setState({
         shoppingCartData: shoppingCartDataClone,
@@ -83,7 +89,7 @@ class ShoppingCart extends Component {
     const result = await shoppingCartService.clearCart();
     if (result.data) {
       const shoppingCartDataClone = { ...this.state.shoppingCartData };
-      shoppingCartDataClone.items = [];
+      shoppingCartDataClone.shoppingCartItems = [];
       this.setState({
         shoppingCartData: shoppingCartDataClone,
       });
@@ -91,12 +97,12 @@ class ShoppingCart extends Component {
   };
 
   render() {
-    const { items, error } = this.state.shoppingCartData;
+    const { shoppingCartItems, error } = this.state.shoppingCartData;
     const { shoppingCartDataLoading } = this.state;
 
     return (
       <ShoppingCartContent
-        items={items}
+        shoppingCartItems={shoppingCartItems}
         error={error}
         shoppingCartDataLoading={shoppingCartDataLoading}
         onQuantityIncreased={this.handleQuantityIncreased}
