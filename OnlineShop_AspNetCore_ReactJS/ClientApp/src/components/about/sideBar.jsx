@@ -1,16 +1,16 @@
 import React from "react";
-import ListGroup from "./common/listGroup";
-import ErrorMessage from "./common/errorMessage";
-import Spinner from "./common/spinner";
+import ListGroup from "../common/listGroup";
+import ErrorMessage from "../common/errorMessage";
+import Spinner from "../common/spinner";
 
-const AboutSideBar = props => {
+const AboutSideBar = (props) => {
   const displayName = "About Side Bar";
   const {
     iterations,
     selectedIteration,
     iterationDataLoading,
     error,
-    onIterationSelected
+    onIterationSelected,
   } = props;
 
   return (

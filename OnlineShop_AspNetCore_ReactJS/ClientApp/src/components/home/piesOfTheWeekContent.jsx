@@ -1,9 +1,9 @@
 ﻿import React from "react";
 import { Link } from "react-router-dom";
-import ErrorMessage from "./common/errorMessage";
-import Spinner from "./common/spinner";
+import ErrorMessage from "../common/errorMessage";
+import Spinner from "../common/spinner";
 
-const PiesOfTheWeek = props => {
+const PiesOfTheWeek = (props) => {
   const displayName = "Pies Of The Week";
   const { pies, error, pieDataLoading, onLoad, onAddToCart } = props;
   const displayStyle = pieDataLoading ? { display: "none" } : null;
@@ -20,7 +20,7 @@ const PiesOfTheWeek = props => {
             </div>
 
             <div className="row border mb-3" style={displayStyle}>
-              {pies.map(pie => (
+              {pies.map((pie) => (
                 <div key={pie.id} className="col-sm-4">
                   <div className="px-4 my-2">
                     <img

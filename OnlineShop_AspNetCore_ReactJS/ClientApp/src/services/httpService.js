@@ -54,8 +54,8 @@ async function remove(apiEndPoint) {
 }
 
 export default {
-  get: get,
-  post: post,
-  put: put,
-  delete: remove
+  get,
+  post,
+  put,
+  delete: remove,
 };

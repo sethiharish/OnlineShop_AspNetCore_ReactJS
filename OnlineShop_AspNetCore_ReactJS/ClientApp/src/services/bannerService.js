@@ -7,5 +7,5 @@ async function getBanners() {
 }
 
 export default {
-  getBanners
+  getBanners,
 };

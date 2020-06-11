@@ -7,5 +7,5 @@ async function getIterations() {
 }
 
 export default {
-  getIterations
+  getIterations,
 };

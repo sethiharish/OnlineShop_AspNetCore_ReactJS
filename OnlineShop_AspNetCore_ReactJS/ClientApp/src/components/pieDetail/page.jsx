@@ -1,22 +1,24 @@
 import React, { Component } from "react";
-import pieService from "../services/pieService";
-import PieDetailContent from "./pieDetailContent";
-import shoppingCartService from "../services/shoppingCartService";
+import pieService from "../../services/pieService";
+import PieDetailContent from "./content";
+import shoppingCartService from "../../services/shoppingCartService";
 
 class PieDetail extends Component {
   state = { pieData: {}, pieDataLoading: true };
 
   async componentDidMount() {
     const { match } = this.props;
-    const { data: pie, error } = await pieService.getPie(match.params.id);
-    this.setState({ pieData: { pie, error } });
+
+    const [pieData] = await Promise.all([pieService.getPie(match.params.id)]);
+
+    this.setState({ pieData: { pie: pieData.data, error: pieData.error } });
   }
 
   handleImageLoad = () => {
     this.setState({ pieDataLoading: false });
   };
 
-  handleAddToCart = async pie => {
+  handleAddToCart = async (pie) => {
     const { history } = this.props;
     const result = await shoppingCartService.increaseItemQuantity(pie.id, 1);
     if (result.data) {

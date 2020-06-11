@@ -7,5 +7,5 @@ async function getCategories() {
 }
 
 export default {
-  getCategories
+  getCategories,
 };

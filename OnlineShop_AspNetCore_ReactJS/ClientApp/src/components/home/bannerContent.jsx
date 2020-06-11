@@ -1,8 +1,8 @@
 ﻿import React from "react";
-import ErrorMessage from "./common/errorMessage";
-import Spinner from "./common/spinner";
+import ErrorMessage from "../common/errorMessage";
+import Spinner from "../common/spinner";
 
-const Banner = props => {
+const Banner = (props) => {
   const displayName = "Banner";
   const { banner, error, bannerDataLoading, onLoad } = props;
 

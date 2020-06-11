@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ErrorMessage from "./common/errorMessage";
-import Spinner from "./common/spinner";
+import ErrorMessage from "../common/errorMessage";
+import Spinner from "../common/spinner";
 
-const PieListContent = props => {
+const PieListContent = (props) => {
   const displayName = "Pie List Content";
   const { pies, error, pieDataLoading, onLoad, onAddToCart } = props;
   const displayStyle = pieDataLoading ? { display: "none" } : null;
@@ -11,10 +11,13 @@ const PieListContent = props => {
   return (
     <React.Fragment>
       {error && <ErrorMessage componentName={displayName} />}
-      {!error && pies && (
+      {!error && pieDataLoading && (
+        <Spinner componentName={displayName} spinnerOnly />
+      )}
+      {!error && !pieDataLoading && pies && (
         <div className="col-sm-9">
           <div className="row border" style={displayStyle}>
-            {pies.map(pie => (
+            {pies.map((pie) => (
               <div key={pie.id} className="col-sm-4">
                 {!error && !pie.loaded && (
                   <Spinner componentName={displayName} spinnerOnly />

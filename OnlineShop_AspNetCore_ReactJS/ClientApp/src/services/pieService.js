@@ -17,5 +17,5 @@ async function getPie(pieId) {
 export default {
   getPiesOfTheWeek,
   getPies,
-  getPie
+  getPie,
 };

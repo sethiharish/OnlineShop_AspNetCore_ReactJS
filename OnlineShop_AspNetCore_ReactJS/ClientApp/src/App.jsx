@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import Home from "./components/home";
+import Home from "./components/home/page";
 import { NavMenu } from "./components/NavMenu";
-import PieDetail from "./components/pieDetail";
-import PieList from "./components/pieList";
-import ShoppingCart from "./components/shoppingCart";
+import PieDetail from "./components/pieDetail/page";
+import PieList from "./components/pieList/page";
+import ShoppingCart from "./components/shoppingCart/page";
+import About from "./components/about/page";
+import NotFound from "./components/notFound/page";
 import "font-awesome/css/font-awesome.css";
-import About from "./components/about";
-import NotFound from "./components/notFound";
 import "./custom.css";
 
 class App extends Component {

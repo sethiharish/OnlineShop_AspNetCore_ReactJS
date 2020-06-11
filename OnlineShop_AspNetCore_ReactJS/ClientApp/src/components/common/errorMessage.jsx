@@ -1,6 +1,6 @@
 import React from "react";
 
-const ErrorMessage = props => {
+const ErrorMessage = (props) => {
   const { message, componentName, colSpan, showComponentName } = props;
 
   return (
@@ -19,7 +19,7 @@ const ErrorMessage = props => {
 
 ErrorMessage.defaultProps = {
   colSpan: 6,
-  showComponentName: false
+  showComponentName: false,
 };
 
 export default ErrorMessage;

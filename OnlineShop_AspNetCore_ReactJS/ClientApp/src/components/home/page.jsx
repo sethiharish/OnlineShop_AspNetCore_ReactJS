@@ -1,32 +1,32 @@
 ﻿import React, { Component } from "react";
-import Banner from "./banner";
-import PiesOfTheWeek from "./piesOfTheWeek";
-import bannerService from "../services/bannerService";
-import pieService from "../services/pieService";
-import generateRandomNumber from "../utils/generateRandomNumber";
-import shoppingCartService from "../services/shoppingCartService";
+import Banner from "./bannerContent";
+import PiesOfTheWeek from "./piesOfTheWeekContent";
+import bannerService from "../../services/bannerService";
+import pieService from "../../services/pieService";
+import generateRandomNumber from "../../utils/generateRandomNumber";
+import shoppingCartService from "../../services/shoppingCartService";
 
 class Home extends Component {
   state = {
     bannerData: { banners: [], activeBanner: {}, error: null },
     pieData: { pies: [], error: null },
     bannerDataLoading: true,
-    pieDataLoading: true
+    pieDataLoading: true,
   };
 
   async componentDidMount() {
-    const pieData = await pieService.getPiesOfTheWeek();
-    this.setState({
-      pieData: { pies: pieData.data, error: pieData.error }
-    });
+    const [bannerData, pieData] = await Promise.all([
+      bannerService.getBanners(),
+      pieService.getPiesOfTheWeek(),
+    ]);
 
-    const bannerData = await bannerService.getBanners();
     this.setState({
+      pieData: { pies: pieData.data, error: pieData.error },
       bannerData: {
         banners: bannerData.data,
         activeBanner: {},
-        error: bannerData.error
-      }
+        error: bannerData.error,
+      },
     });
 
     // Suppressing Random Banner display
@@ -38,8 +38,8 @@ class Home extends Component {
     this.setState({ bannerData: bannerDataClone });
   }
 
-  getBannerRandomly = banners => {
-    return new Promise(resolve => {
+  getBannerRandomly = (banners) => {
+    return new Promise((resolve) => {
       let result = null;
       if (banners) {
         const { length: count } = banners;
@@ -52,21 +52,21 @@ class Home extends Component {
     });
   };
 
-  handleBannerImageLoad = banner => {
+  handleBannerImageLoad = (banner) => {
     this.setState({ bannerDataLoading: false });
   };
 
-  handlePieImageLoad = pie => {
+  handlePieImageLoad = (pie) => {
     const piesClone = [...this.state.pieData.pies];
     const index = piesClone.indexOf(pie);
     const pieClone = { ...piesClone[index] };
     pieClone.isLoading = false;
     const pieDataLoading =
-      piesClone.filter(p => p.isLoading).length === 0 ? false : true;
+      piesClone.filter((p) => p.isLoading).length === 0 ? false : true;
     this.setState({ pieDataLoading });
   };
 
-  handleAddToCart = async pie => {
+  handleAddToCart = async (pie) => {
     const { history } = this.props;
     const result = await shoppingCartService.increaseItemQuantity(pie.id, 1);
     if (result.data) {

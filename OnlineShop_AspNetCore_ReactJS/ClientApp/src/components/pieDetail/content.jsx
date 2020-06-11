@@ -1,8 +1,8 @@
 import React from "react";
-import ErrorMessage from "./common/errorMessage";
-import Spinner from "./common/spinner";
+import ErrorMessage from "../common/errorMessage";
+import Spinner from "../common/spinner";
 
-const PieDetailContent = props => {
+const PieDetailContent = (props) => {
   const displayName = "Pie Detail";
   const { pie, error, onLoad, pieDataLoading, onAddToCart } = props;
   const displayStyle = pieDataLoading ? { display: "none" } : null;
