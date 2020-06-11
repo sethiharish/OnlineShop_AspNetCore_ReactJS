@@ -11,7 +11,10 @@ class ShoppingCart extends Component {
   };
 
   async componentDidMount() {
-    const shoppingCartData = await shoppingCartService.getShoppingCartItems();
+    const [shoppingCartData] = await Promise.all([
+      shoppingCartService.getShoppingCartItems(),
+    ]);
+
     this.setState({
       shoppingCartData: {
         shoppingCartItems: shoppingCartData.data,
