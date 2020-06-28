@@ -5,7 +5,16 @@ import Spinner from "../common/spinner";
 
 const PiesOfTheWeek = (props) => {
   const displayName = "Pies Of The Week";
-  const { pies, error, pieDataLoading, onLoad, onAddToCart } = props;
+
+  const {
+    pies,
+    error,
+    pieDataLoading,
+    onLoad,
+    onShowModal,
+    onAddToCart,
+  } = props;
+
   const displayStyle = pieDataLoading ? { display: "none" } : null;
 
   return (
@@ -25,10 +34,12 @@ const PiesOfTheWeek = (props) => {
                   <div className="px-4 my-2">
                     <img
                       className="img-fluid"
+                      style={{ cursor: "zoom-in" }}
                       src={pie.thumbnailImageUrl}
                       title={pie.name}
                       alt={pie.name}
                       onLoad={() => onLoad(pie)}
+                      onClick={() => onShowModal(pie)}
                     ></img>
                     <Link to={`/react/pies/${pie.id}`}>{pie.name}</Link>
                     <span className="float-right">${pie.price}</span>

@@ -1,16 +1,28 @@
 import React, { Component } from "react";
 import AboutContent from "./content";
 import AboutSideBar from "./sideBar";
+import Modal from "../common/modal";
 import iterationService from "../../services/iterationService";
 import workItemService from "../../services/workItemService";
 
 class About extends Component {
   state = {
-    workItemData: { workItems: [], error: null },
+    workItemData: { workItems: [], selectedWorkItem: null, error: null },
     iterationData: { iterations: [], selectedIteration: null, error: null },
     iterationDataLoading: true,
     workItemDataLoading: true,
+    showModal: false,
   };
+
+  modalContent = (selectedWorkItem) =>
+    selectedWorkItem ? (
+      <img
+        className="img-fluid"
+        src={selectedWorkItem.imageUrl}
+        title={selectedWorkItem.name}
+        alt={selectedWorkItem.name}
+      ></img>
+    ) : null;
 
   async componentDidMount() {
     const [iterationData, workItemData] = await Promise.all([
@@ -25,7 +37,11 @@ class About extends Component {
         error: iterationData.error,
       },
       iterationDataLoading: false,
-      workItemData: { workItems: workItemData.data, error: workItemData.error },
+      workItemData: {
+        workItems: workItemData.data,
+        selectedWorkItem: null,
+        error: workItemData.error,
+      },
       workItemDataLoading: false,
     });
   }
@@ -47,14 +63,30 @@ class About extends Component {
     this.setState({ workItemData: workItemDataClone });
   };
 
+  handleShowHideModal = (workItem) => {
+    const workItemDataClone = { ...this.state.workItemData };
+    const workItemClone = { ...workItem };
+    workItemDataClone.selectedWorkItem = workItemClone;
+    this.setState({
+      workItemData: workItemDataClone,
+      showModal: !this.state.showModal,
+    });
+  };
+
   render() {
-    const { workItems, error: workItemsError } = this.state.workItemData;
+    const {
+      workItems,
+      selectedWorkItem,
+      error: workItemsError,
+    } = this.state.workItemData;
+
     const {
       iterations,
       selectedIteration,
       error: iterationsError,
     } = this.state.iterationData;
-    const { iterationDataLoading, workItemDataLoading } = this.state;
+
+    const { showModal, iterationDataLoading, workItemDataLoading } = this.state;
 
     const filteredItems = workItems
       ? workItems.filter(
@@ -69,6 +101,13 @@ class About extends Component {
     return (
       <div className="container">
         <div className="row">
+          <Modal
+            showModal={showModal}
+            onHideModal={this.handleShowHideModal}
+            data={selectedWorkItem}
+          >
+            {this.modalContent(selectedWorkItem)}
+          </Modal>
           <AboutSideBar
             iterations={iterations}
             selectedIteration={selectedIteration}
@@ -81,6 +120,7 @@ class About extends Component {
             workItemDataLoading={workItemDataLoading}
             error={workItemsError}
             onLoad={this.handleItemImageLoad}
+            onShowModal={this.handleShowHideModal}
           />
         </div>
       </div>

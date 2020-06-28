@@ -1,17 +1,29 @@
 import React, { Component } from "react";
 import PieListContent from "./content";
 import PieListSideBar from "./sideBar";
+import Modal from "../common/modal";
 import pieService from "../../services/pieService";
 import categoryService from "../../services/categoryService";
 import shoppingCartService from "../../services/shoppingCartService";
 
 class PieList extends Component {
   state = {
-    pieData: { pies: [], error: null },
+    pieData: { pies: [], selectedPie: null, error: null },
     categoryData: { categories: [], selectedCategory: null, error: null },
     categoryDataLoading: true,
     pieDataLoading: true,
+    showModal: false,
   };
+
+  modalContent = (selectedPie) =>
+    selectedPie ? (
+      <img
+        className="img-fluid"
+        src={selectedPie.imageUrl}
+        title={selectedPie.name}
+        alt={selectedPie.name}
+      ></img>
+    ) : null;
 
   async componentDidMount() {
     const [categoryData, pieData] = await Promise.all([
@@ -21,7 +33,7 @@ class PieList extends Component {
 
     const categoryAll = { id: 0, name: "All Pies" };
     this.setState({
-      pieData: { pies: pieData.data, error: pieData.error },
+      pieData: { pies: pieData.data, selectedPie: null, error: pieData.error },
       pieDataLoading: false,
       categoryData: {
         categories: categoryData.data
@@ -59,14 +71,26 @@ class PieList extends Component {
     }
   };
 
+  handleShowHideModal = (pie) => {
+    const pieDataClone = { ...this.state.pieData };
+    const pieClone = { ...pie };
+    pieDataClone.selectedPie = pieClone;
+    this.setState({
+      pieData: pieDataClone,
+      showModal: !this.state.showModal,
+    });
+  };
+
   render() {
-    const { pies, error: piesError } = this.state.pieData;
+    const { pies, selectedPie, error: piesError } = this.state.pieData;
+
     const {
       categories,
       selectedCategory,
       error: categoriesError,
     } = this.state.categoryData;
-    const { categoryDataLoading, pieDataLoading } = this.state;
+
+    const { categoryDataLoading, pieDataLoading, showModal } = this.state;
 
     const filteredPies = pies.filter(
       (pie) =>
@@ -78,6 +102,13 @@ class PieList extends Component {
     return (
       <div className="container">
         <div className="row">
+          <Modal
+            showModal={showModal}
+            onHideModal={this.handleShowHideModal}
+            data={selectedPie}
+          >
+            {this.modalContent(selectedPie)}
+          </Modal>
           <PieListSideBar
             categories={categories}
             selectedCategory={selectedCategory}
@@ -91,6 +122,7 @@ class PieList extends Component {
             error={piesError}
             onLoad={this.handlePieImageLoad}
             onAddToCart={this.handleAddToCart}
+            onShowModal={this.handleShowHideModal}
           />
         </div>
       </div>
