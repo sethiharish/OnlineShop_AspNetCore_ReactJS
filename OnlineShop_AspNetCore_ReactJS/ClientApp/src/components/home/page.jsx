@@ -82,7 +82,7 @@ class Home extends Component {
     const { history } = this.props;
     const result = await shoppingCartService.increaseItemQuantity(pie.id, 1);
     if (result.data) {
-      history.replace("/react/shoppingcart");
+      history.push("/react/shoppingcart");
     }
   };
 
