@@ -4,7 +4,7 @@ import Spinner from "../common/spinner";
 
 const AboutContent = (props) => {
   const displayName = "About Content";
-  const { workItems, error, workItemDataLoading, onLoad } = props;
+  const { workItems, error, workItemDataLoading, onLoad, onShowModal } = props;
 
   return (
     <div className="col-sm-9">
@@ -14,7 +14,7 @@ const AboutContent = (props) => {
           <Spinner componentName={displayName} spinnerOnly />
         )}
         {!error && workItems && (
-          <React.Fragment>
+          <div className="row mb-2">
             {workItems.map((workItem) => (
               <React.Fragment key={workItem.id}>
                 {workItem.iterationName === "Application Overview" && (
@@ -68,9 +68,9 @@ const AboutContent = (props) => {
                   </div>
                 )}
                 {workItem.iterationName !== "Application Overview" && (
-                  <div className="row mb-2">
+                  <div className="col-sm-6">
                     {!error && !workItem.loaded && (
-                      <Spinner componentName={displayName} />
+                      <Spinner componentName={displayName} spinnerOnly />
                     )}
                     <div
                       className="border px-4 mb-2"
@@ -79,17 +79,19 @@ const AboutContent = (props) => {
                       <h5>{workItem.name}</h5>
                       <img
                         className="img-fluid"
+                        style={{ cursor: "zoom-in" }}
                         src={workItem.imageUrl}
                         title={workItem.name}
                         alt={workItem.name}
                         onLoad={() => onLoad(workItem)}
+                        onClick={() => onShowModal(workItem)}
                       ></img>
                     </div>
                   </div>
                 )}
               </React.Fragment>
             ))}
-          </React.Fragment>
+          </div>
         )}
       </div>
     </div>

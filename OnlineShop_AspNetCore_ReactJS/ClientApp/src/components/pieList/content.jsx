@@ -5,7 +5,16 @@ import Spinner from "../common/spinner";
 
 const PieListContent = (props) => {
   const displayName = "Pie List Content";
-  const { pies, error, pieDataLoading, onLoad, onAddToCart } = props;
+
+  const {
+    pies,
+    error,
+    pieDataLoading,
+    onLoad,
+    onAddToCart,
+    onShowModal,
+  } = props;
+
   const displayStyle = pieDataLoading ? { display: "none" } : null;
 
   return (
@@ -28,10 +37,12 @@ const PieListContent = (props) => {
                 >
                   <img
                     className="img-fluid"
+                    style={{ cursor: "zoom-in" }}
                     src={pie.thumbnailImageUrl}
                     title={pie.name}
                     alt={pie.name}
                     onLoad={() => onLoad(pie)}
+                    onClick={() => onShowModal(pie)}
                   ></img>
                   <Link to={`/react/pies/${pie.id}`}>{pie.name}</Link>
                   <span className="float-right">${pie.price}</span>

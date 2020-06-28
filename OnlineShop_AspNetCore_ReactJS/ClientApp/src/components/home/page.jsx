@@ -1,6 +1,7 @@
 ﻿import React, { Component } from "react";
 import Banner from "./bannerContent";
 import PiesOfTheWeek from "./piesOfTheWeekContent";
+import Modal from "../common/modal";
 import bannerService from "../../services/bannerService";
 import pieService from "../../services/pieService";
 import generateRandomNumber from "../../utils/generateRandomNumber";
@@ -9,10 +10,21 @@ import shoppingCartService from "../../services/shoppingCartService";
 class Home extends Component {
   state = {
     bannerData: { banners: [], activeBanner: {}, error: null },
-    pieData: { pies: [], error: null },
+    pieData: { pies: [], selectedPie: null, error: null },
     bannerDataLoading: true,
     pieDataLoading: true,
+    showModal: false,
   };
+
+  modalContent = (selectedPie) =>
+    selectedPie ? (
+      <img
+        className="img-fluid"
+        src={selectedPie.imageUrl}
+        title={selectedPie.name}
+        alt={selectedPie.name}
+      ></img>
+    ) : null;
 
   async componentDidMount() {
     const [bannerData, pieData] = await Promise.all([
@@ -21,7 +33,7 @@ class Home extends Component {
     ]);
 
     this.setState({
-      pieData: { pies: pieData.data, error: pieData.error },
+      pieData: { pies: pieData.data, selectedPie: null, error: pieData.error },
       bannerData: {
         banners: bannerData.data,
         activeBanner: {},
@@ -74,13 +86,30 @@ class Home extends Component {
     }
   };
 
+  handleShowHideModal = (pie) => {
+    const pieDataClone = { ...this.state.pieData };
+    const pieClone = { ...pie };
+    pieDataClone.selectedPie = pieClone;
+    this.setState({
+      pieData: pieDataClone,
+      showModal: !this.state.showModal,
+    });
+  };
+
   render() {
-    const { pieDataLoading, bannerDataLoading } = this.state;
+    const { pieDataLoading, bannerDataLoading, showModal } = this.state;
     const { activeBanner, error: bannerDataError } = this.state.bannerData;
-    const { pies, error: piesError } = this.state.pieData;
+    const { pies, selectedPie, error: piesError } = this.state.pieData;
 
     return (
       <React.Fragment>
+        <Modal
+          showModal={showModal}
+          onHideModal={this.handleShowHideModal}
+          data={selectedPie}
+        >
+          {this.modalContent(selectedPie)}
+        </Modal>
         <Banner
           banner={activeBanner}
           error={bannerDataError}
@@ -93,6 +122,7 @@ class Home extends Component {
           onLoad={this.handlePieImageLoad}
           pieDataLoading={pieDataLoading}
           onAddToCart={this.handleAddToCart}
+          onShowModal={this.handleShowHideModal}
         />
       </React.Fragment>
     );
